@@ -20,9 +20,14 @@
 # include "libft/libft.h"
 typedef struct      s_var
 {
-    char    flag;
+    int     flag_dash;
+    int     flag_sign;
+    int     flag_space;
+    char    flag_sharp;
+    int     flag_zero;
     int     width;
     int     precision;
+    char    *length
     char    conv;
 }                   t_var;
 

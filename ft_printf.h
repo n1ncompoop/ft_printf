@@ -28,7 +28,7 @@ typedef struct      s_extn
     char    flag_hash;
     int     width;
     int     precision;
-    int     length;
+    char    length[2];
     char    conv;
 }                   t_extn;
 
