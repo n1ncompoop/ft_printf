@@ -1,15 +1,39 @@
-int     check_flags(char *format, int *i)
+int     check_flags(char *format, int *i, t_var extn)
 {
     if (format[i] == '-')
-        extn.dash = 1;
+    {
+        if (extn.zero != 1)
+            extn.dash = 1;
+        else
+        {
+            printf("print error message\n");
+            return(-1);
+        }
+        return(1);
+    }
     if (format[i] == '+')
+    {
+        extn.space = 0;
         extn.sign = 1;
+        return(1);
+    }
     if (format[i] == '0')
+    {
         if (extn.dash != 1)
             extn.zero = 1;
+        else
+        {
+            printf("print error message\n");
+            return(-1);
+        }
+        return(1);
+    }
     if (format[i] == ' ')
+    {
         if (extn.sign != 1)
             extn.space = 1;
+        return(1);
+    }
     if (format[i] == '#')
     {
         i++;
@@ -17,11 +41,42 @@ int     check_flags(char *format, int *i)
             extn.hash = o;
         if (format[i] == 'x') || (format[i] == 'X')
             extn.hash = x;
+        else
+        {
+            printf("the hash given is not supported %c", format[i]);
+            return(-1);
+        }
+        //add more #_flag functions
+        return(1);
     }
+    return(0);
 }
 
-                    var.flag = check_flags(format, &i);
-                    var.width = check_width(format, &i);
-                    var.precision = check_precision(format, &i);
-                    var.length = check_length(format, &i);
-                    var.conv = check_conv(format, &i)
+int     find_width_precision(char *format, int *i, t_var *extn)
+{
+    int     width;
+    int     precision;
+
+    width = 0;
+    precision = 6;
+    while (ft_isdigit(format[i]))
+    {
+        width = (width * 10) + (format[i] - '0');
+    }
+    if (format[i] == '.')
+    {
+        precision = 0;
+        i++;
+        while (ft_isdigit(format[i]))
+        {
+            precision = (precision * 10) + (format[i] - '0');
+        }
+    }
+    return(1);
+}
+
+char    *find_length(char *format, int *i, t_var extn)
+{
+
+    
+}
