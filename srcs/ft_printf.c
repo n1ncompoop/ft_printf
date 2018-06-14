@@ -13,16 +13,28 @@
 #include "libft.h"
 #include "ft_printf.h"
 
+char    *xtnd_buf(int width, char *cur, char *new)
+{
+    char    *str;
+
+    str = ft_strjoin(cur, new);
+    free(cur);
+    free(new);
+    return(str);
+}
+
 int         ft_printf(const char *format, ...)
 {
     va_list     vars;
-    int         i;
+    t_var       *temp;
+    char        *str;
+    int         *i;
     int         cnt;
 
     i = 0;
     cnt = 0;
     va_start(vars, format);
-    while (format[i])
+    while (format[i] != '\0')
     {
         if (format[i] == '%')
         {
@@ -31,20 +43,10 @@ int         ft_printf(const char *format, ...)
                 store_in; //print
             else
             {
-                find extension
-                {
-                    var.flag = check_flags(format, &i);
-                    var.width = check_width(format, &i);
-                    var.precision = check_precision(format, &i);
-                    var.length = check_length(format, &i);
-                    var.conv = check_conv(format, &i)
-                }
-                find conversion
-                {
-                    get_var;
-                    change_var;
-                    store_in; //print
-                }
+                //arg = va_arg(vars, int);
+                find_extension(format, &i, &temp);
+                if (
+                //store_magic();
             }
         }
         else if (format[i] != '%')
@@ -57,6 +59,9 @@ int         ft_printf(const char *format, ...)
     return (cnt);
 }
 
-get_cnt
-    malloc_cnt
-    print_in;
+int     main()
+{
+    char    *str = "asdf";
+    ft_printf("%0+s", str);
+    return(0);
+}
