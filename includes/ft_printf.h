@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdarg.h>
-# include "libft/libft.h"
+
 typedef struct      s_var
 {
     int     flag_dash;
@@ -27,8 +27,16 @@ typedef struct      s_var
     int     flag_zero;
     int     width;
     int     precision;
-    char    *length
+    char    length[2];
     char    conv;
 }                   t_var;
+
+int     check_flags(char *format, int *i, t_var *extn);
+void     find_width_precision(char *format, int *i, t_var *extn);
+int    find_length(char *format, int *i, t_var *extn);
+int     find_conv(char *format, int *i, t_var *extn);
+int     find_extension(char *format, int *i, t_var *extn);
+t_var         ft_printf(const char *format); //add ...
+void    print_var_data(t_var temp);
 
 # endif

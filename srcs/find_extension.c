@@ -1,9 +1,12 @@
+#include "../includes/ft_printf.h"
+#include "../libft/libft.h"
+
 int     check_flags(char *format, int *i, t_var *extn)
 {
-    if (format[i] == '-')
+    if (format[*i] == '-')
     {
-        if (extn.zero != 1)
-            extn.dash = 1;
+        if (extn->flag_zero != 1)
+            extn->flag_dash = 1;
         else
         {
             printf("print error message\n");
@@ -11,16 +14,16 @@ int     check_flags(char *format, int *i, t_var *extn)
         }
         return(1);
     }
-    if (format[i] == '+')
+    if (format[*i] == '+')
     {
-        extn.space = 0;
-        extn.sign = 1;
+        extn->flag_space = 0;
+        extn->flag_sign = 1;
         return(1);
     }
-    if (format[i] == '0')
+    if (format[*i] == '0')
     {
-        if (extn.dash != 1)
-            extn.zero = 1;
+        if (extn->flag_dash != 1)
+            extn->flag_zero = 1;
         else
         {
             printf("print error message\n");
@@ -28,22 +31,22 @@ int     check_flags(char *format, int *i, t_var *extn)
         }
         return(1);
     }
-    if (format[i] == ' ')
+    if (format[*i] == ' ')
     {
-        if (extn.sign != 1)
-            extn.space = 1;
+        if (extn->flag_sign != 1)
+            extn->flag_space = 1;
         return(1);
     }
-    if (format[i] == '#')
+    if (format[*i] == '#')
     {
         i++;
-        if (format[i] == 'o')
-            extn.hash = o;
-        if (format[i] == 'x') || (format[i] == 'X')
-            extn.hash = x;
+        if (format[*i] == 'o')
+            extn->flag_sharp = "o";
+        if (format[*i] == 'x') || (format[*i] == 'X')
+            extn->flag_sharp = "x";
         else
         {
-            printf("the hash given is not supported %c", format[i]);
+            printf("the hash given is not supported %c", format[*i]);
             return(-1);
         }
         //add more #_flag functions
@@ -59,56 +62,58 @@ void     find_width_precision(char *format, int *i, t_var *extn)
 
     width = 0;
     precision = 6; //default value?
-    while (ft_isdigit(format[i]))
+    while (ft_isdigit(format[*i]))
     {
-        width = (width * 10) + (format[i] - '0');
+        width = (width * 10) + (format[*i] - '0');
     }
-    if (format[i] == '.')
+    if (format[*i] == '.')
     {
         precision = 0;
         i++;
-        while (ft_isdigit(format[i]))
+        while (ft_isdigit(format[*i]))
         {
-            precision = (precision * 10) + (format[i] - '0');
+            precision = (precision * 10) + (format[*i] - '0');
         }
     }
+    extn->width = width;
+    extn->precision = precision;
 }
 
 int    find_length(char *format, int *i, t_var *extn)
 {
-    if ((format[i] == 'j' || format[i] == 'z' || format[i] == 't' || format[i] == 'L') && !(extn.length))
+    if ((format[*i] == 'j' || format[*i] == 'z' || format[*i] == 't' || format[*i] == 'L') && !(extn->length))
     {
-        extn.length = format[i];
+        extn->length = format[*i];
         i++;
         return(1);
     }
-    else if (format[i] == 'h')
+    else if (format[*i] == 'h')
     {
         i++;
-        if (format[i] == 'h')
+        if (format[*i] == 'h')
         {
-            extn.length = 'hh';
+            extn->length = 'hh';
             i++;
             return(1);
         }
         else
         {
-            extn.length = format[i];
+            extn.length = format[*i];
             return(1);
         }
     }
-    else if (format[i] == 'l')
+    else if (format[*i] == 'l')
     {
         i++;
-        if (format[i] == 'l')
+        if (format[*i] == 'l')
         {
-            extn.length = 'll';
+            extn->length = 'll';
             i++;
             return(1);
         }
         else
         {
-            extn.length = format[i];
+            extn->length = format[*i];
             return(1);
         }    
     }
@@ -117,16 +122,16 @@ int    find_length(char *format, int *i, t_var *extn)
 
 int     find_conv(char *format, int *i, t_var *extn)
 {
-    if (format[i] == 's' || format[i] == 'p' || format[i] == 'd' || format[i] == 'u' || format[i] == '%' ||
-    format[i] == 'o' || format[i] == 'x' || format[i] == 'X' || format[i] == 'i' || format[i] == 'c')
+    if (format[*i] == 's' || format[*i] == 'p' || format[*i] == 'd' || format[*i] == 'u' || format[*i] == '%' ||
+    format[*i] == 'o' || format[*i] == 'x' || format[*i] == 'X' || format[*i] == 'i' || format[*i] == 'c')
     {
-        extn.conv = format[i]
+        extn->conv = format[*i]
         i++;
         return (1);
     }
-    else if (format[i] == 'S' || format[i] == 'D' || format[i] == 'U' || format[i] == 'C')
+    else if (format[*i] == 'S' || format[*i] == 'D' || format[*i] == 'U' || format[*i] == 'C')
     {
-        extn.conv = (format[i] + 32)
+        extn->conv = (format[*i] + 32)
         i++;
         return (1);
     }
@@ -139,7 +144,7 @@ int     find_extension(char *format, int *i, t_var *extn)
     int     ln;
     int     conv;
 
-    while (flg = check_flag(format, &i, &extn))
+    while (flg = check_flags(format, &i, extn))
     {
         if (flg < 0)
         {
@@ -151,10 +156,10 @@ int     find_extension(char *format, int *i, t_var *extn)
             break;
         }
     }
-    wp = find_width_precision(format, &i, &extn);
-    ln = find_length(format, &i, &extn);
-    conv = find_conv(format, &i, &extn);
+    find_width_precision(format, &i, extn);
+    ln = find_length(format, &i, extn);
+    conv = find_conv(format, &i, extn);
+    printf("%d%d%d", flg, ln, conv);
 
-    printf("%d%d%d%d", flg, wp, ln, conv);
     return(1);
 }

@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "ft_printf.h"
+#include "../libft/libft.h"
+#include "../includes/ft_printf.h"
 
-char    *xtnd_buf(int width, char *cur, char *new)
+/*char    *xtnd_buf(int width, char *cur, char *new)
 {
     char    *str;
 
@@ -22,46 +22,57 @@ char    *xtnd_buf(int width, char *cur, char *new)
     free(new);
     return(str);
 }
-
-int         ft_printf(const char *format, ...)
+*/
+t_var         ft_printf(const char *format) //...)
 {
-    va_list     vars;
-    t_var       *temp;
+//    va_list     vars;
+    t_var       /*star*/*temp;
     char        *str;
     int         *i;
     int         cnt;
 
     i = 0;
     cnt = 0;
-    va_start(vars, format);
+//    va_start(vars, format);
     while (format[i] != '\0')
     {
         if (format[i] == '%')
         {
             i++;
             if (format[i] == '%')
-                store_in; //print
+                //print
+                printf("%%");
             else
             {
                 //arg = va_arg(vars, int);
-                find_extension(format, &i, &temp);
-                if (
+                find_extension(format, &i, /*ad*/temp);
+                print_var_data(temp);
                 //store_magic();
             }
         }
         else if (format[i] != '%')
         {
-            find_next_%
-            store_in; //print
+            printf("w");
+            //find_next_%
+            //store_in; //print
         }
         i++;
     }
-    return (cnt);
+    return (temp);
+}
+
+void    print_var_data(t_var temp)
+{
+    printf("%d dash\n %d sign\n", temp.flag_dash, temp.flag_sign);
+    printf("%d space\n %c sharp\n", temp.flag_space, temp.flag_sharp);
+    printf("%d zero\n %d width\n", temp.flag_zero, temp.width);
+    printf("%d precision\n %s length\n %c conv\n", temp.precision, temp.length, temp.conv);
 }
 
 int     main()
 {
-    char    *str = "asdf";
-    ft_printf("%0+s", str);
+    t_var   poop;
+
+    poop = ft_printf("%0+scsdkjnc%%");
     return(0);
 }
