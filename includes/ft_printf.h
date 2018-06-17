@@ -27,7 +27,7 @@ typedef struct      s_var
     int     flag_zero;
     int     width;
     int     precision;
-    char    length[2];
+    char    *length;
     char    conv;
 }                   t_var;
 

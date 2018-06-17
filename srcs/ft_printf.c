@@ -34,12 +34,12 @@ t_var         ft_printf(const char *format) //...)
     i = 0;
     cnt = 0;
 //    va_start(vars, format);
-    while (format[i] != '\0')
+    while (format[*i] != '\0')
     {
-        if (format[i] == '%')
+        if (format[*i] == '%')
         {
             i++;
-            if (format[i] == '%')
+            if (format[*i] == '%')
                 //print
                 printf("%%");
             else
@@ -50,7 +50,7 @@ t_var         ft_printf(const char *format) //...)
                 //store_magic();
             }
         }
-        else if (format[i] != '%')
+        else
         {
             printf("w");
             //find_next_%
@@ -58,7 +58,7 @@ t_var         ft_printf(const char *format) //...)
         }
         i++;
     }
-    return (temp);
+    return (*temp);
 }
 
 void    print_var_data(t_var temp)
