@@ -1,7 +1,7 @@
 #include "../includes/ft_printf.h"
 #include "../libft/libft.h"
 
-int     check_flags(char *format, int *i, t_var *extn)
+int     check_flags(const char *format, int *i, t_var *extn)
 {
     if (format[*i] == '-')
     {
@@ -55,7 +55,7 @@ int     check_flags(char *format, int *i, t_var *extn)
     return(0);
 }
 
-void     find_width_precision(char *format, int *i, t_var *extn)
+void     find_width_precision(const char *format, int *i, t_var *extn)
 {
     int     width;
     int     precision;
@@ -79,7 +79,7 @@ void     find_width_precision(char *format, int *i, t_var *extn)
     extn->precision = precision;
 }
 
-int    find_length(char *format, int *i, t_var *extn)
+int    find_length(const char *format, int *i, t_var *extn)
 {
     if ((format[*i] == 'j' || format[*i] == 'z' || format[*i] == 't' || format[*i] == 'L') )
     {
@@ -120,7 +120,7 @@ int    find_length(char *format, int *i, t_var *extn)
     return (0);
 }
 
-int     find_conv(char *format, int *i, t_var *extn)
+int     find_conv(const char *format, int *i, t_var *extn)
 {
     if (format[*i] == 's' || format[*i] == 'p' || format[*i] == 'd' || format[*i] == 'u' || format[*i] == '%' ||
     format[*i] == 'o' || format[*i] == 'x' || format[*i] == 'X' || format[*i] == 'i' || format[*i] == 'c')
@@ -135,9 +135,10 @@ int     find_conv(char *format, int *i, t_var *extn)
         i++;
         return (1);
     }
+    return(0);
 }
 
-int     find_extension(char *format, int *i, t_var *extn)
+int     find_extension(const char *format, int *i, t_var *extn)
 {
     int     flg;
     int     ln;

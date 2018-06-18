@@ -26,8 +26,8 @@
 t_var         ft_printf(const char *format) //...)
 {
 //    va_list     vars;
-    t_var       /*star*/*temp;
-    char        *str;
+    t_var       /*star*/temp;
+    //char        *str;
     int         *i;
     int         cnt;
 
@@ -45,7 +45,7 @@ t_var         ft_printf(const char *format) //...)
             else
             {
                 //arg = va_arg(vars, int);
-                find_extension(format, &i, /*ad*/temp);
+                find_extension(format, i, /*ad*/&temp);
                 print_var_data(temp);
                 //store_magic();
             }
@@ -58,7 +58,7 @@ t_var         ft_printf(const char *format) //...)
         }
         i++;
     }
-    return (*temp);
+    return (temp);
 }
 
 void    print_var_data(t_var temp)
